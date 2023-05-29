@@ -21,9 +21,6 @@
     "serve": "^14.1.2",
     "web-vitals": "^2.1.4"
   },
-  "engines": {
-    "node": "18.12.1"
-  },
   "scripts": {
     "dev": "react-scripts start",
     "start": "serve -s build",
