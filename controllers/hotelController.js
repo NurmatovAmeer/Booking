@@ -9,9 +9,11 @@ export const createHotel = async (req, res) => {
 
   try {
     const savedHotel = await newHotel.save();
-    res.status(200).json(savedHotel);
+    return res.status(200).json(savedHotel);
   } catch (err) {
-    res.status(500).json({ message: "hotels route create problem" }, err);
+    return res
+      .status(500)
+      .json({ message: "hotels route create problem" }, err);
   }
 };
 // Update hotel
@@ -24,18 +26,22 @@ export const updateHotel = async (req, res) => {
       },
       { new: true }
     );
-    res.status(200).json(updatedHotel);
+    return res.status(200).json(updatedHotel);
   } catch (err) {
-    res.status(500).json({ message: "hotels route update problem" }, err);
+    return res
+      .status(500)
+      .json({ message: "hotels route update problem" }, err);
   }
 };
 // delete hotel
 export const deleteHotel = async (req, res) => {
   try {
     await Hotel.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: "hotel has been deleted" });
+    return res.status(200).json({ message: "hotel has been deleted" });
   } catch (err) {
-    res.status(500).json({ message: "hotels route delete problem" }, err);
+    return res
+      .status(500)
+      .json({ message: "hotels route delete problem" }, err);
   }
 };
 // Get All hotels
@@ -52,18 +58,20 @@ export const getHotels = async (req, res) => {
       hotels = hotels.filter((hotel) => hotel.city.includes(searchDest));
     }
 
-    res.status(200).json(hotels);
+    return res.status(200).json(hotels);
   } catch (err) {
-    res.status(500).json({ message: "hotels route delete problem" }, err);
+    return res
+      .status(500)
+      .json({ message: "hotels route delete problem" }, err);
   }
 };
 // Get One hotel
 export const getHotel = async (req, res) => {
   try {
     const hotel = await Hotel.findById(req.params.id);
-    res.status(200).json(hotel);
+    return res.status(200).json(hotel);
   } catch (err) {
-    res.status(500).json({ message: "hotels route get problem" }, err);
+    return res.status(500).json({ message: "hotels route get problem" }, err);
   }
 };
 // Get hotels count by City
@@ -75,9 +83,11 @@ export const countByCity = async (req, res) => {
         return Hotel.countDocuments({ city: city });
       })
     );
-    res.status(200).json(list);
+    return res.status(200).json(list);
   } catch (err) {
-    res.status(500).json({ message: "hotels route delete problem" }, err);
+    return res
+      .status(500)
+      .json({ message: "hotels route delete problem" }, err);
   }
 };
 
@@ -90,7 +100,7 @@ export const countByType = async (req, res) => {
     const villaCount = await Hotel.countDocuments({ type: "villa" });
     const cabinCount = await Hotel.countDocuments({ type: "cabin" });
 
-    res.status(200).json([
+    return res.status(200).json([
       { type: "hotel", count: hotelCount },
       { type: "apartment", count: apartmentCount },
       { type: "resort", count: resortCount },
@@ -98,7 +108,9 @@ export const countByType = async (req, res) => {
       { type: "cabin", count: cabinCount },
     ]);
   } catch (err) {
-    res.status(500).json({ message: "hotels route delete problem" }, err);
+    return res
+      .status(500)
+      .json({ message: "hotels route delete problem" }, err);
   }
 };
 // get Hotel's Room
@@ -110,8 +122,10 @@ export const getHotelRooms = async (req, res) => {
         return Room.findById(room);
       })
     );
-    res.status(200).json(list);
+    return res.status(200).json(list);
   } catch (err) {
-    res.status(500).json({ message: "hotels route get hotelRooms problem" });
+    return res
+      .status(500)
+      .json({ message: "hotels route get hotelRooms problem" });
   }
 };

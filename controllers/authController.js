@@ -6,7 +6,7 @@ export const register = async (req, res) => {
   try {
     const user = User.find(req.body.username);
     if (user) {
-      res
+      return res
         .status(200)
         .json({ message: "user with this username has already exists" });
     }
@@ -19,9 +19,11 @@ export const register = async (req, res) => {
     });
 
     await newUser.save();
-    res.status(200).send("User has been created.");
+    return res.status(200).send("User has been created.");
   } catch (err) {
-    res.status(500).json({ message: "auth Controller error register", err });
+    return res
+      .status(500)
+      .json({ message: "auth Controller error register", err });
   }
 };
 
@@ -45,14 +47,16 @@ export const login = async (req, res) => {
 
     const token = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
-      process.env.JWT_secret
+      "bookingwebinvoker"
     );
 
-    res
+    return res
       .status(200)
       .cookie("access_token", token, { httpOnly: true })
       .json(otherDetails);
   } catch (err) {
-    res.status(500).json({ message: "auth Controller error login", err });
+    return res
+      .status(500)
+      .json({ message: "auth Controller error login", err });
   }
 };
